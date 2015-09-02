@@ -221,11 +221,17 @@ Copyright 2015 Kevin Sylvestre
     };
 
     Lighter.prototype.size = function() {
-      var ratio;
+      var ratio, height_ratio, height_scaled, width_scaled, max_height;
       ratio = Math.max(this.dimensions.height / ($(window).height() - this.settings.padding), this.dimensions.width / ($(window).width() - this.settings.padding));
+      max_height = Math.min($(window).height(), 600);
+      height_ratio = max_height/this.dimensions.height;
+      height_scaled = height_ratio > 1.0 ? this.dimensions.height  : this.dimensions.height * height_ratio;
+      width_scaled = height_ratio > 1.0 ? this.dimensions.width  : this.dimensions.width * height_ratio;
       return {
-        width: ratio > 1.0 ? Math.round(this.dimensions.width / ratio) : this.dimensions.width,
-        height: ratio > 1.0 ? Math.round(this.dimensions.height / ratio) : this.dimensions.height
+        width: ratio > 1.0 ? Math.round(width_scaled / ratio) : width_scaled,
+        height: ratio > 1.0 ? Math.round(height_scaled / ratio) : height_scaled,
+        //width: ratio > 1.0 ? Math.round(this.dimensions.width / ratio) : this.dimensions.width,
+        //height: ratio > 1.0 ? Math.round(this.dimensions.height / ratio) : this.dimensions.height
       };
     };
 
